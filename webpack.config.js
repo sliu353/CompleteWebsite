@@ -1,7 +1,8 @@
 const path = require('path');
+const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const extractIndexCSS = new ExtractTextPlugin({ filename: 'bundle.css',  });
-const extractGeneralCSS = new ExtractTextPlugin({ filename: 'bundle.css' });
+const extractIndexCSS = new ExtractTextPlugin('IndexCSS');
+const extractGeneralCSS = new ExtractTextPlugin('GeneralCSS');
 
 var config = {
     // This is the "main" file which should include all other modules
@@ -64,8 +65,7 @@ var config = {
                     path.resolve(__dirname, "src/css")
                 ],
                 use: extractIndexCSS.extract({ // Instance 1
-                    fallback: 'style-loader',
-                    use: [ 'css-loader' ]
+                    use: [ 'css-loader']
                 })
             },
             {
@@ -73,16 +73,19 @@ var config = {
                 include: [
                     path.resolve(__dirname, "src/about/css")
                 ],
-                use: extractGeneralCSS.extract({ // Instance 1
-                    fallback: 'style-loader',
-                    use: [ 'css-loader' ]
+                use: extractGeneralCSS.extract({
+                  use: ["css-loader"]
                 })
             }
         ]
     }, 
     plugins: [
         extractIndexCSS,
-        extractGeneralCSS
+        extractGeneralCSS,
+        new webpack.ProvidePlugin({
+            "$": 'jquery',
+            "jQuery": 'jquery'
+        })
     ],
     externals: {
         jquery: 'jQuery'

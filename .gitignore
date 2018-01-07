@@ -6,6 +6,8 @@
 *.exe
 *.o
 *.so
+*.png
+*.gif
 
 # Packages #
 ############
@@ -38,5 +40,8 @@ Thumbs.db
 
 # static resources #
 ######################
-src/
+video/
+images/
+files/
 node_modules/
+
