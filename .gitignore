@@ -38,4 +38,5 @@ Thumbs.db
 
 # static resources #
 ######################
-Resources/
+src/
+node_modules/
