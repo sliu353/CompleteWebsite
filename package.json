@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node_modules/.bin/nodemon app.js",
-    "build": "webpack"
+    "build": "node_modules/.bin/webpack"
   },
   "dependencies": {
     "body-parser": "latest",

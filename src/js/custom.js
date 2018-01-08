@@ -80,20 +80,17 @@ $()
 $(window).load(function () {
   $('#loader').fadeOut(1000); // set duration in brackets  
   $('#overlay-for-loader').fadeOut(1000);
-  
-  $('#video-background-2').vide({
-    mp4: 'video/beach.mp4',
-    poster: 'images/beach'
-  }, {
-    posterType: 'png'
-  });
 
-  $('#video-background-4').vide({
-    mp4: 'video/cloud.mp4',
-    poster: 'images/cloud.mp4',
-  }, {
-    posterType: 'PNG'
-  });
+  for (i = 0; i < content.sections.length; i++) {
+    if (content.sections[i].video) {
+      $('#' + content.sections[i].index).vide({
+        mp4: content.sections[i].video,
+        poster: content.sections[i].images[0]
+      }, {
+        posterType: 'png'
+      });
+    }
+  }
 });
 
 
@@ -134,22 +131,11 @@ $(function () {
   // HOME BACKGROUND SLIDESHOW
   $(function () {
     jQuery(document).ready(function () {
-      $('#home').backstretch([
-        "images/factory1.jpg",
-        "images/factory2.jpg",
-        "images/factory3.jpg"
-      ], { duration: 2000, fade: 750 });
-      $('#video-background-2').backstretch([
-        "images/beach.png"
-      ], { duration: 2000, fade: 750 });
-      $('#subsideries').backstretch([
-        "images/superstunningbackground1.jpg",
-        "images/superstunningbackground2.jpg",
-        "images/superstunningbackground3.jpg",
-      ], { duration: 2000, fade: 750 });
-      $('#video-background-4').backstretch([
-        "images/cloud.PNG"
-      ], { duration: 2000, fade: 750 });
+      for (i = 0; i < content.sections.length; i++) {
+        $('#' + content.sections[i].index).backstretch(
+          content.sections[i].images, { duration: 2000, fade: 750 }
+        )
+      }
     });
   })
 

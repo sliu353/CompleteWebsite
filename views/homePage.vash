@@ -46,13 +46,9 @@ Template 2075 Digital Team
 					<img id="logo-image-small" src="images/logoSmall.png">
 				</a>
 			</div>
-			<a href="./index.html">首页</a>
-			<a href="./about/about.html">走进尚东华夏</a>
-			<a href="./about/companies.html">旗下公司</a>
-			<a href="./about/platform.html">业务平台</a>
-			<a href="./about/news.html">新闻中心</a>
-			<a href="./about/hiring.html">人才招聘</a>
-			<a href="./about/contacts.html">联系我们</a>
+			@model.navbar.sections.forEach(function(item) {
+				<a href="@item.url">@item.title</a>
+			})
 		</div>
 
 
@@ -62,63 +58,39 @@ Template 2075 Digital Team
 					<b>&#9776;</b>
 				</span>
 			</span>
-			<!-- home section -->
+			@model.content.sections.forEach(function(item){
+			if (!item.videoName) {
 			<div class="section">
-				<section class="home" id="home">
-					<div class="container">
-						<div class="row">
-							<div id="overlay"></div>
-							<div class="col-md-12 col-sm-12 section-content">
-								<!--<h3>WEB DESIGN / WEB DEVELOPMENT / SOCIAL MEDIA</h3>-->
-								<h1 style="text-shadow: 0 3px 1px black;">尚东华夏集团</h1>
-								<h3 style="text-shadow: 0 3px 1px black;">集设计研发、生产制造、工程应用、集成服务于一体的大型建筑管道产业集团</h3>
-								<a href="../about/about.html" class="smoothScroll btn btn-default">了解更多</a>
-								<!--
-				<h3>WEB DESIGN / WEB DEVELOPMENT / SOCIAL MEDIA</h3>
-				<a href="secondPage.html" class="smoothScroll btn btn-default">Talk to us</a>
-				-->
-							</div>
+			<section class="home" id="@item.index">
+				<div class="container">
+					<div class="row">
+						<div id="overlay"></div>
+						<div class="col-md-12 col-sm-12 section-content">
+							<h1 style="text-shadow: 0 3px 1px black;">@item.title</h1>
+							<h3 style="text-shadow: 0 3px 1px black;">@item.text</h3>
+							<a href="@item.href" class="smoothScroll btn btn-default">@item.buttonText</a>
 						</div>
 					</div>
-				</section>
-			</div>
-			<div class="section">
-				<section class="home" id="video-background-2">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12 col-sm-12 section-content">
-								<h1 style="text-shadow: 0 3px 1px black;">河南向塑管道有限公司</h1>
-								<a href="../about/companies.html" class="smoothScroll btn btn-default">了解更多</a>
-							</div>
+				</div>
+			</section>
+		</div>
+			}
+			else{
+		<div class="section">
+			<section class="home" id="@item.index">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-12 col-sm-12 section-content">
+							<h1 style="text-shadow: 0 3px 1px black;">@item.title</h1>
+							<h3 style="text-shadow: 0 3px 1px black;">@item.text</h3>
+							<a href="@item.href" class="smoothScroll btn btn-default">@item.buttonText</a>
 						</div>
 					</div>
-				</section>
-			</div>
-
-			<div class="section">
-				<section class="home" id="subsideries">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12 col-sm-12 section-content">
-								<h1 style="text-shadow: 0 3px 1px black;">河南西辰市政工程有限公司</h1>
-								<a href="../about/companies.html" class="smoothScroll btn btn-default">了解更多</a>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
-			<div class="section">
-				<section class="home" id="video-background-4">
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12 col-sm-12 section-content">
-								<h1 style="text-shadow: 0 3px 1px black;">河南亚代工程管理有限公司</h1>
-								<a href="../about/companies.html" class="smoothScroll btn btn-default">了解更多</a>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
+				</div>
+			</section>
+		</div>
+			}
+		});
 		</div>
 
 		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
