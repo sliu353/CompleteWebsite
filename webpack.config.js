@@ -49,7 +49,7 @@ var config = {
     },
     // Where should the compiled file go?
     output: {
-        filename: '[name].js'
+        filename: 'src/[name].js'
     },
     resolve: {
         alias: {
@@ -84,11 +84,13 @@ var config = {
         extractGeneralCSS,
         new webpack.ProvidePlugin({
             "$": 'jquery',
-            "jQuery": 'jquery'
+            "jQuery": 'jquery',
+            'Vue':'vue'
         })
     ],
     externals: {
-        jquery: 'jQuery'
+        jquery: 'jQuery',
+        vue:'Vue'
     }
 }
 

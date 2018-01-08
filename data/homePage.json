@@ -1,0 +1,40 @@
+{
+    "sections":[
+        {
+            "index": "section1",
+            "title": "尚东华夏集团",
+            "text": "集设计研发、生产制造、工程应用、集成服务于一体的大型建筑管道产业集团",
+            "buttonText": "了解更多",
+            "video": null,
+            "images": ["images/factory1.jpg", "images/factory2.jpg", "images/factory3.jpg"]
+        },
+        {
+            "index": "section2",
+            "title": "河南向塑管道有限公司",
+            "text": "",
+            "buttonText": "了解更多",
+            "video": "video/beach.mp4",
+            "images": ["images/beach.png"]
+        },
+        {
+            "index": "section3",
+            "title": "河南西辰市政工程有限公司",
+            "text": "",
+            "buttonText": "了解更多",
+            "video": null,
+            "images": [
+                "images/superstunningbackground1.jpg",
+                "images/superstunningbackground2.jpg",
+                "images/superstunningbackground3.jpg"
+            ]
+        },
+        {
+            "index": "section4",
+            "title": "河南亚代工程管理有限公司",
+            "text": "",
+            "buttonText": "了解更多",
+            "video": "images/cloud.mp4",
+            "images": ["images/cloud.PNG"]
+        }
+    ]
+}

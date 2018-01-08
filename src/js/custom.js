@@ -75,6 +75,7 @@ jQuery(document).ready(function ($) {
   }
 });
 
+$()
 
 $(window).load(function () {
   $('#loader').fadeOut(1000); // set duration in brackets  
@@ -89,7 +90,7 @@ $(window).load(function () {
 
   $('#video-background-4').vide({
     mp4: 'video/cloud.mp4',
-    poster: 'images/cloud',
+    poster: 'images/cloud.mp4',
   }, {
     posterType: 'PNG'
   });

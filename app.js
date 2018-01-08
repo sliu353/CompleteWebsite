@@ -17,7 +17,7 @@ app.use(bodyParser());
 // Decode the request url and redirect to default page if the request url is '/首页/首页.html/'
 app.use(function (req,res,next) {
     req.url = decode(req.url);
-    if (req.url === '/首页/首页.html/') {
+    if (req.url === '/index.html/') {
         res.redirect('/')
     }
     console.log("/" + req.method);
@@ -26,8 +26,8 @@ app.use(function (req,res,next) {
 });
 
 app.use(device.capture());
-app.use(express.static(path.join(__dirname, 'public/首页')));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(express.static(path.join(__dirname, 'src/about')));
+app.use(express.static(path.join(__dirname, 'src')));
 app.use("/",router);
 
 router.use(function (req,res,next) {
@@ -40,8 +40,8 @@ router.use(function (req,res,next) {
 router.get("/",function(req,res){
     var device_type = req.device.type;
     var model = {};
-    model.navbar = JSON.parse(fs.readFileSync(__dirname + "/Resources/navbar.json"));
-    model.content = JSON.parse(fs.readFileSync(__dirname + "/Resources/homePage.json"))
+    model.navbar = JSON.parse(fs.readFileSync(__dirname + "/data/navbar.json"));
+    model.content = JSON.parse(fs.readFileSync(__dirname + "/data/homePage.json"))
     res.render('homePage', model)
 });
 
