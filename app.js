@@ -37,6 +37,10 @@ router.use(function (req,res,next) {
     next();
 });
 
+router.get("/admin", function(req, res){
+    
+});
+
 router.get("/",function(req,res){
     var device_type = req.device.type;
     var model = {};

@@ -3,16 +3,24 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node_modules/.bin/nodemon app.js",
-    "build": "node_modules/.bin/webpack"
+    "build": "node_modules/.bin/webpack",
+    "devServer": "webpack-dev-server"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "body-parser": "latest",
     "express": "latest",
     "express-device": "latest",
+    "file-loader": "^1.1.6",
     "path": "latest",
-    "vue": "^2.5.13",
     "urldecode": "^1.0.1",
-    "vash": "^0.12.3"
+    "vash": "^0.12.3",
+    "vue": "^2.5.13",
+    "vue-axios": "^2.0.2",
+    "vue-loader": "^13.7.0",
+    "vue-router": "^3.0.1",
+    "vue-template-compiler": "^2.5.13",
+    "webpack-dev-server": "^2.10.1"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

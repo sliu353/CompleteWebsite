@@ -5,9 +5,8 @@ const extractIndexCSS = new ExtractTextPlugin('IndexCSS');
 const extractGeneralCSS = new ExtractTextPlugin('GeneralCSS');
 
 var config = {
-    // This is the "main" file which should include all other modules
     entry: {
-        index : [
+        index: [
             "./src/js/smoothscroll.js",
             "./src/js/isotope.js",
             "./src/js/nivo-lightbox.min.js",
@@ -17,7 +16,7 @@ var config = {
             "./src/js/custom.js",
             "./src/js/jquery.vide.min.js"
         ],
-        general : [
+        general: [
             "./src/about/js/backgroundCheck.js",
             "./src/about/js/counterup.min.js",
             "./src/about/js/custom.js",
@@ -30,24 +29,9 @@ var config = {
             "./src/about/js/responsiveslides.min.js",
             "./src/about/js/SmoothScroll.min.js",
             "./src/about/js/waypoints.min.js"
-        ] 
-        //indexCss : [
-        //    "./src/css/animate.min.css",
-        //    "./src/css/et-line-font.css",
-        //    "./src/css/font-awesome.min.css",
-        //    "./src/css/jquery.pagepilling.css",
-        //    "./src/css/nivo-lightbox.css",
-        //    "./src/css/style.css"
-        //],
-        //generalCss : [
-        //    "./src/about/css/flexslider.css",
-        //    "./src/about/css/font-awesome.min.css",
-        //    "./src/about/css/jportilio.min.css",
-        //    "./src/about/css/jQuery.lightninBox.css",
-        //    "./src/about/css/style.css"
-        //]
+        ],
+        admin: './adminSrc/main.js'
     },
-    // Where should the compiled file go?
     output: {
         filename: 'src/[name].js'
     },
@@ -65,7 +49,7 @@ var config = {
                     path.resolve(__dirname, "src/css")
                 ],
                 use: extractIndexCSS.extract({ // Instance 1
-                    use: [ 'css-loader']
+                    use: ['css-loader']
                 })
             },
             {
@@ -74,23 +58,33 @@ var config = {
                     path.resolve(__dirname, "src/about/css")
                 ],
                 use: extractGeneralCSS.extract({
-                  use: ["css-loader"]
+                    use: ["css-loader"]
                 })
+            },
+            {
+                test: /\.js$/,
+                loader: 'babel-loader',
+                exclude: /node_modules/
+            },
+            {
+                test: /\.vue$/,
+                exclude: /(node_modules|bower_components)/,
+                use: {
+                    loader: 'vue-loader'
+                }
             }
         ]
-    }, 
+    },
     plugins: [
         extractIndexCSS,
         extractGeneralCSS,
         new webpack.ProvidePlugin({
             "$": 'jquery',
-            "jQuery": 'jquery',
-            'Vue':'vue'
+            "jQuery": 'jquery'
         })
     ],
     externals: {
-        jquery: 'jQuery',
-        vue:'Vue'
+        jquery: 'jQuery'
     }
 }
 
