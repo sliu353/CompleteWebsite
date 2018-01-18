@@ -2,31 +2,38 @@
     "sections":[
         {
             "title": "首页", 
+            "id": "4685382",
             "url": "index.html"
         }, 
         {
             "title": "走进尚东华夏", 
+            "id": "962485161",
             "url": "./about/about.html"
         }, 
         {
             "title": "旗下公司", 
+            "id": "2547201581",
             "url": "./about/companies.html"
         }, 
         {
             "title": "业务平台", 
+            "id": "2551964893",
             "url": "./about/platform.html"
         }, 
         {
             "title": "新闻中心", 
+            "id": "2589025312",
             "url": "./about/news.html"
         }, 
         {
             "title": "人才招聘", 
+            "id":"886596881",
             "url": "./about/hiring.html"
         }, 
 
         {
             "title": "联系我们", 
+            "id": "2700564919",
             "url": "./about/contacts.html"
         }
     ] 

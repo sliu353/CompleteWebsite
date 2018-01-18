@@ -8,7 +8,7 @@ import axios from 'axios';
 Vue.use(VueAxios, axios);
 
 import App from './App.vue';
-import CreateItem from './components/CreateItem.vue';
+import Admin from './components/Admin.vue';
 //import DisplayItem from './components/DisplayItem.vue';
 //import EditItem from './components/EditItem.vue';
 
@@ -27,8 +27,8 @@ import CreateItem from './components/CreateItem.vue';
 const routes = [
     {
         name: 'Edit',
-        path: '/',
-        component: CreateItem
+        path: '/admin',
+        component: Admin
     }
     //{
     //    name: 'DisplayItem',
