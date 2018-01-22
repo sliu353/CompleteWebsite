@@ -81,11 +81,11 @@ $(window).load(function () {
   $('#loader').fadeOut(1000); // set duration in brackets  
   $('#overlay-for-loader').fadeOut(1000);
 
-  for (i = 0; i < content.sections.length; i++) {
-    if (content.sections[i].video) {
-      $('#' + content.sections[i].index).vide({
-        mp4: content.sections[i].video,
-        poster: content.sections[i].images[0]
+  for (i = 0; i < content.length; i++) {
+    if (content[i].video) {
+      $('#' + content[i].index).vide({
+        mp4: content[i].video,
+        poster: content[i].images[0]
       }, {
         posterType: 'png'
       });
@@ -131,9 +131,9 @@ $(function () {
   // HOME BACKGROUND SLIDESHOW
   $(function () {
     jQuery(document).ready(function () {
-      for (i = 0; i < content.sections.length; i++) {
-        $('#' + content.sections[i].index).backstretch(
-          content.sections[i].images, { duration: 2000, fade: 750 }
+      for (i = 0; i < content.length; i++) {
+        $('#' + content[i].index).backstretch(
+          content[i].images, { duration: 2000, fade: 750 }
         )
       }
     });

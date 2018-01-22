@@ -5,6 +5,7 @@ const extractIndexCSS = new ExtractTextPlugin('IndexCSS');
 const extractGeneralCSS = new ExtractTextPlugin('GeneralCSS');
 
 var config = {
+    devtool: 'source-map',
     entry: {
         index: [
             "./src/js/smoothscroll.js",

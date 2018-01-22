@@ -1126,25 +1126,32 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["a"] = ({
-  data() {
+var toBeExported = {
+  data: function () {
     return {
-      item: {}
+      data: []
     };
   },
   created: function () {
-    this.fetchItems();
+    this.fetchData();
   },
   methods: {
-    fetchItems() {
-      let uri = "http://localhost:3000/admin";
+    fetchData() {
+      let uri = "http://localhost:3000/homePage.json";
       this.axios.get(uri).then(response => {
-        this.items = response.data;
+        this.data = response.data;
       });
     }
   }
-});
+};
+/* harmony default export */ __webpack_exports__["a"] = (toBeExported);
 
 /***/ }),
 /* 14 */,
@@ -15880,13 +15887,13 @@ var content = __webpack_require__(62);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
-var update = __webpack_require__(64)("229ca777", content, false);
+var update = __webpack_require__(64)("31199599", content, false);
 // Hot Module Replacement
 if(false) {
  // When the styles change, update the <style> tags
  if(!content.locals) {
-   module.hot.accept("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3bfa3348\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue", function() {
-     var newContent = require("!!../node_modules/css-loader/index.js!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3bfa3348\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue");
+   module.hot.accept("!!../node_modules/css-loader/index.js?sourceMap!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3bfa3348\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue", function() {
+     var newContent = require("!!../node_modules/css-loader/index.js?sourceMap!../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-3bfa3348\",\"scoped\":false,\"hasInlineConfig\":false}!../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./App.vue");
      if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
      update(newContent);
    });
@@ -15899,12 +15906,12 @@ if(false) {
 /* 62 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(63)(false);
+exports = module.exports = __webpack_require__(63)(true);
 // imports
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s\n}\n.fade-enter, .fade-leave-active {\n  opacity: 0\n}\n", ""]);
+exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s\n}\n.fade-enter, .fade-leave-active {\n  opacity: 0\n}\n", "", {"version":3,"sources":["C:/Users/uilna.DESKTOP-TEVUC4M/Documents/CompleteWebsite/adminSrc/adminSrc/App.vue"],"names":[],"mappings":";AASA;EACA,uBAAA;CACA;AACA;EACA,UAAA;CACA","file":"App.vue","sourcesContent":["<template>\r\n    <div class=\"container\">\r\n        <div>\r\n            <transition name=\"fade\">\r\n                <router-view></router-view>\r\n            </transition>\r\n        </div>\r\n    </div>\r\n</template>\r\n<style>\r\n    .fade-enter-active, .fade-leave-active {\r\n      transition: opacity .5s\r\n    }\r\n    .fade-enter, .fade-leave-active {\r\n      opacity: 0\r\n    }\r\n</style>\r\n<script>\r\n    export default{\r\n    }\r\n</script>"],"sourceRoot":""}]);
 
 // exports
 
@@ -16334,85 +16341,116 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h1", [_vm._v("Create An Item")]),
-    _vm._v(" "),
-    _c(
-      "form",
-      {
-        on: {
-          submit: function($event) {
-            $event.preventDefault()
-            _vm.addItem($event)
-          }
-        }
-      },
-      [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Item Name:")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.item.name,
-                    expression: "item.name"
-                  }
-                ],
-                staticClass: "form-control",
-                attrs: { type: "text" },
-                domProps: { value: _vm.item.name },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.item, "name", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
+  return _c(
+    "div",
+    _vm._l(_vm.data, function(section) {
+      return _c("div", { key: section.index }, [
+        _c("h1", [_vm._v(_vm._s(section.index))]),
         _vm._v(" "),
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-6" }, [
-            _c("div", { staticClass: "form-group" }, [
-              _c("label", [_vm._v("Item Price:")]),
-              _vm._v(" "),
-              _c("input", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.item.price,
-                    expression: "item.price"
-                  }
-                ],
-                staticClass: "form-control col-md-6",
-                attrs: { type: "text" },
-                domProps: { value: _vm.item.price },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                _vm.addItem($event)
+              }
+            }
+          },
+          [
+            _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Title")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: section.title,
+                        expression: "section.title"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: section.title },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(section, "title", $event.target.value)
+                      }
                     }
-                    _vm.$set(_vm.item, "price", $event.target.value)
-                  }
-                }
-              })
-            ])
-          ])
-        ]),
-        _c("br"),
-        _vm._v(" "),
-        _vm._m(0)
-      ]
-    )
-  ])
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("Text")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: section.text,
+                        expression: "section.text"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: section.text },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(section, "text", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-md-6" }, [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("label", [_vm._v("buttonText")]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: section.buttonText,
+                        expression: "section.buttonText"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text" },
+                    domProps: { value: section.buttonText },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(section, "buttonText", $event.target.value)
+                      }
+                    }
+                  })
+                ])
+              ])
+            ]),
+            _c("br"),
+            _vm._v(" "),
+            _vm._m(0, true)
+          ]
+        )
+      ])
+    })
+  )
 }
 var staticRenderFns = [
   function() {
@@ -16436,3 +16474,4 @@ if (false) {
 
 /***/ })
 /******/ ]);
+//# sourceMappingURL=admin.js.map

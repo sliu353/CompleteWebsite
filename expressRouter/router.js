@@ -18,6 +18,10 @@ router.get('/admin', function(req, res) {
     res.sendFile(path.resolve('admin.html'));
 });
 
+router.get('/homePage.json', function(req, res) {
+    res.sendFile(path.resolve(__dirname, '../data/homePage.json'));
+});
+
 for (i = 0 ; i < pages; i++) {
     router.route(`/admin/${page.id}`).get(function(req, res) {
         var data = require(`../data/${page.id}.json`);
@@ -30,7 +34,7 @@ router.get("/",function(req,res){
     var device_type = req.device.type;
     var model = {};
     model.navbar = JSON.parse(fs.readFileSync(__dirname + "/../data/navbar.json"));
-    model.content = JSON.parse(fs.readFileSync(__dirname + "/../data/4685382.json"))
+    model.content = JSON.parse(fs.readFileSync(__dirname + "/../data/homePage.json"))
     res.render('homePage', model)
 });
 

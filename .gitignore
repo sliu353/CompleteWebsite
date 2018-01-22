@@ -44,4 +44,5 @@ video/
 images/
 files/
 node_modules/
+*.map
 

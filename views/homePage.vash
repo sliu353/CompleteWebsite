@@ -58,7 +58,7 @@ Template 2075 Digital Team
 					<b>&#9776;</b>
 				</span>
 			</span>
-			@model.content.sections.forEach(function(item){
+			@model.content.forEach(function(item){
 			if (!item.videoName) {
 			<div class="section">
 			<section class="home" id="@item.index">
