@@ -1092,8 +1092,57 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
-/* harmony default export */ __webpack_exports__["a"] = ({});
+/* harmony default export */ __webpack_exports__["a"] = ({
+  data: function () {
+    return {
+      height: 100,
+      width: 100
+    };
+  }
+});
 
 /***/ }),
 /* 13 */
@@ -1132,10 +1181,25 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var toBeExported = {
   data: function () {
     return {
+      enableActiveAttr: false,
       data: []
     };
   },
@@ -15911,7 +15975,7 @@ exports = module.exports = __webpack_require__(63)(true);
 
 
 // module
-exports.push([module.i, "\n.fade-enter-active, .fade-leave-active {\n  transition: opacity .5s\n}\n.fade-enter, .fade-leave-active {\n  opacity: 0\n}\n", "", {"version":3,"sources":["C:/Users/uilna.DESKTOP-TEVUC4M/Documents/CompleteWebsite/adminSrc/adminSrc/App.vue"],"names":[],"mappings":";AASA;EACA,uBAAA;CACA;AACA;EACA,UAAA;CACA","file":"App.vue","sourcesContent":["<template>\r\n    <div class=\"container\">\r\n        <div>\r\n            <transition name=\"fade\">\r\n                <router-view></router-view>\r\n            </transition>\r\n        </div>\r\n    </div>\r\n</template>\r\n<style>\r\n    .fade-enter-active, .fade-leave-active {\r\n      transition: opacity .5s\r\n    }\r\n    .fade-enter, .fade-leave-active {\r\n      opacity: 0\r\n    }\r\n</style>\r\n<script>\r\n    export default{\r\n    }\r\n</script>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s;\n}\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\n}\n.container-fluid {\r\n  height: 100vh;\r\n  padding: 0;\n}\n.page-view-container {\r\n  width: 100%;\r\n  height: 100%;\r\n    position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  transform: translate(-50%, -50%);\n}\n.container-fluid > .row {\r\n  height: 100vh;\n}\n.editor {\r\n  height: 100vh;\r\n  padding: 30px;\n}\n.content {\r\n  height: 100vh;\r\n  background-color: #F0F0F0;\r\n    position: relative;\n}\n.view {\r\n  height: 100%;\r\n  width: 100%;\r\n  padding: 0;\n}\r\n", "", {"version":3,"sources":["C:/Users/uilna.DESKTOP-TEVUC4M/Documents/CompleteWebsite/adminSrc/adminSrc/App.vue"],"names":[],"mappings":";AAmBA;;EAEA,yBAAA;CACA;AACA;;EAEA,WAAA;CACA;AACA;EACA,cAAA;EACA,WAAA;CACA;AACA;EACA,YAAA;EACA,aAAA;IACA,mBAAA;EACA,SAAA;EACA,UAAA;EACA,iCAAA;CACA;AAEA;EACA,cAAA;CACA;AACA;EACA,cAAA;EACA,cAAA;CACA;AACA;EACA,cAAA;EACA,0BAAA;IACA,mBAAA;CACA;AACA;EACA,aAAA;EACA,YAAA;EACA,WAAA;CACA","file":"App.vue","sourcesContent":["<template>\r\n    <div class=\"container-fluid\">\r\n            <div class=\"col-sm-3 editor\">\r\n            <transition name=\"fade\">\r\n                <router-view></router-view>\r\n            </transition>\r\n            <hr>\r\n            <label>宽度(%)</label>\r\n            <input type=\"text\" class=\"form-control\"  v-model=\"width\">\r\n            <label>高度(%)</label>\r\n            <input type=\"text\" class=\"form-control\"  v-model=\"height\">\r\n            </div>\r\n<div class=\"content col-sm-9\">\r\n  <div class=\"page-view-container\" v-bind:style=\"{ width: width + '%', height: height + '%' }\">\r\n            <iframe class=\"view\" src=\"http://localhost:3000\" ></iframe>\r\n        </div>\r\n</div>\r\n        </div>\r\n</template>\r\n<style>\r\n.fade-enter-active,\r\n.fade-leave-active {\r\n  transition: opacity 0.5s;\r\n}\r\n.fade-enter,\r\n.fade-leave-active {\r\n  opacity: 0;\r\n}\r\n.container-fluid {\r\n  height: 100vh;\r\n  padding: 0;\r\n}\r\n.page-view-container {\r\n  width: 100%;\r\n  height: 100%;\r\n    position: absolute;\r\n  top: 50%;\r\n  left: 50%;\r\n  transform: translate(-50%, -50%);\r\n}\r\n\r\n.container-fluid > .row {\r\n  height: 100vh;\r\n}\r\n.editor {\r\n  height: 100vh;\r\n  padding: 30px;\r\n}\r\n.content {\r\n  height: 100vh;\r\n  background-color: #F0F0F0;\r\n    position: relative;\r\n}\r\n.view {\r\n  height: 100%;\r\n  width: 100%;\r\n  padding: 0;\r\n}\r\n</style>\r\n<script>\r\nexport default {\r\n     data: function() {\r\n    return {\r\n      height: 100,\r\n      width: 100,\r\n    };\r\n  }\r\n};\r\n</script>"],"sourceRoot":""}]);
 
 // exports
 
@@ -16261,12 +16325,81 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
+  return _c("div", { staticClass: "container-fluid" }, [
     _c(
       "div",
-      [_c("transition", { attrs: { name: "fade" } }, [_c("router-view")], 1)],
+      { staticClass: "col-sm-3 editor" },
+      [
+        _c("transition", { attrs: { name: "fade" } }, [_c("router-view")], 1),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c("label", [_vm._v("宽度(%)")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.width,
+              expression: "width"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text" },
+          domProps: { value: _vm.width },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.width = $event.target.value
+            }
+          }
+        }),
+        _vm._v(" "),
+        _c("label", [_vm._v("高度(%)")]),
+        _vm._v(" "),
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.height,
+              expression: "height"
+            }
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text" },
+          domProps: { value: _vm.height },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.height = $event.target.value
+            }
+          }
+        })
+      ],
       1
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "content col-sm-9" }, [
+      _c(
+        "div",
+        {
+          staticClass: "page-view-container",
+          style: { width: _vm.width + "%", height: _vm.height + "%" }
+        },
+        [
+          _c("iframe", {
+            staticClass: "view",
+            attrs: { src: "http://localhost:3000" }
+          })
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -16341,118 +16474,172 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    _vm._l(_vm.data, function(section) {
-      return _c("div", { key: section.index }, [
-        _c("h1", [_vm._v(_vm._s(section.index))]),
-        _vm._v(" "),
-        _c(
-          "form",
+  return _c("div", {}, [
+    _c("br"),
+    _vm._v(" "),
+    _c("br"),
+    _vm._v(" "),
+    _c("div", { staticClass: "dropdown" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "ul",
+        { staticClass: "nav-dropdown dropdown-menu nav" },
+        _vm._l(_vm.data, function(section) {
+          return _c("li", { key: section.index }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-tab",
+                attrs: { "data-toggle": "tab", href: "#" + section.index }
+              },
+              [_vm._v(_vm._s(section.index))]
+            )
+          ])
+        })
+      )
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "tab-content" },
+      _vm._l(_vm.data, function(section, i) {
+        return _c(
+          "div",
           {
-            on: {
-              submit: function($event) {
-                $event.preventDefault()
-                _vm.addItem($event)
-              }
-            }
+            key: section.index,
+            class: {
+              "tab-pane": true,
+              fade: true,
+              in: i === 0,
+              active: i === 0
+            },
+            attrs: { id: section.index }
           },
           [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Title")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: section.title,
-                        expression: "section.title"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: section.title },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(section, "title", $event.target.value)
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("Text")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: section.text,
-                        expression: "section.text"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: section.text },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(section, "text", $event.target.value)
-                      }
-                    }
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-md-6" }, [
-                _c("div", { staticClass: "form-group" }, [
-                  _c("label", [_vm._v("buttonText")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: section.buttonText,
-                        expression: "section.buttonText"
-                      }
-                    ],
-                    staticClass: "form-control",
-                    attrs: { type: "text" },
-                    domProps: { value: section.buttonText },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(section, "buttonText", $event.target.value)
-                      }
-                    }
-                  })
-                ])
-              ])
-            ]),
-            _c("br"),
+            _c("h1", [_vm._v(_vm._s(section.index))]),
             _vm._v(" "),
-            _vm._m(0, true)
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    _vm.addItem($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "row" }, [
+                  _c("div", { staticClass: "col-sm-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("标题")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: section.title,
+                            expression: "section.title"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: section.title },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(section, "title", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("文字")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: section.text,
+                            expression: "section.text"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: section.text },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(section, "text", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "col-md-12" }, [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", [_vm._v("按钮文字")]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: section.buttonText,
+                            expression: "section.buttonText"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: { type: "text" },
+                        domProps: { value: section.buttonText },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(section, "buttonText", $event.target.value)
+                          }
+                        }
+                      })
+                    ])
+                  ])
+                ]),
+                _c("br"),
+                _vm._v(" "),
+                _vm._m(1, true)
+              ]
+            )
           ]
         )
-      ])
-    })
-  )
+      })
+    )
+  ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-primary",
+        attrs: { type: "button", "data-toggle": "dropdown" }
+      },
+      [_vm._v("Dropdown Example\r\n    "), _c("span", { staticClass: "caret" })]
+    )
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
