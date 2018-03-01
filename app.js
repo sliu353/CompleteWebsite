@@ -3,6 +3,7 @@ var bodyParser = require('body-parser');
 var path = require('path');
 var device = require('express-device');
 var fs = require('fs');
+const fileUpload = require('express-fileupload');
 
 var app = express();
 var router = require('./expressRouter/router'); 
@@ -11,7 +12,8 @@ app.set('view engine', 'vash');
 app.set('view options', { layout: false });
 app.set('views', __dirname + '/views');
 
-app.use(bodyParser());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(fileUpload());
 
 // Decode the request url and redirect to default page if the request url is '/首页/首页.html/'
 app.use(function (req,res,next) {

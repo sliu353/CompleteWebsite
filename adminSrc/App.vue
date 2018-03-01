@@ -6,9 +6,9 @@
             </transition>
             <hr>
             <label>宽度(%)</label>
-            <input type="text" class="form-control"  v-model="width">
+            <input type="number" class="form-control" min="0" max="100" step="5"  v-model="width">
             <label>高度(%)</label>
-            <input type="text" class="form-control"  v-model="height">
+            <input type="number" class="form-control" min="0" max="100" step="5" v-model="height">
             </div>
 <div class="content col-sm-9">
   <div class="page-view-container" v-bind:style="{ width: width + '%', height: height + '%' }">
@@ -33,10 +33,11 @@
 .page-view-container {
   width: 100%;
   height: 100%;
-    position: absolute;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .container-fluid > .row {
@@ -48,21 +49,25 @@
 }
 .content {
   height: 100vh;
-  background-color: #F0F0F0;
-    position: relative;
+  background-color: #f0f0f0;
+  position: relative;
 }
 .view {
   height: 100%;
   width: 100%;
   padding: 0;
 }
+
+.editor {
+  overflow-y: scroll;
+}
 </style>
 <script>
 export default {
-     data: function() {
+  data: function() {
     return {
       height: 100,
-      width: 100,
+      width: 100
     };
   }
 };

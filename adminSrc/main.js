@@ -7,6 +7,10 @@ import VueAxios from 'vue-axios';
 import axios from 'axios';
 Vue.use(VueAxios, axios);
 
+// Drag and drop sorting plugin.
+import Sortable from 'vue-sortable';
+Vue.use(Sortable);
+
 import App from './App.vue';
 import Admin from './components/Admin.vue';
 //import DisplayItem from './components/DisplayItem.vue';
@@ -23,6 +27,12 @@ import Admin from './components/Admin.vue';
 //    });
 //}
 
+
+Vue.directive('sortable', {
+    inserted: function (el, binding) {
+      new Sortable(el, binding.value || {})
+    }
+  });
 
 const routes = [
     {

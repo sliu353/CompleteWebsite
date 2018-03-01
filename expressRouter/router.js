@@ -3,6 +3,7 @@ var app = express();
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
+const imagesPath = path.join( __dirname + '/../src/images');
 
 var navs = require('../data/navbar.json');
 var pages = navs.sections;
@@ -21,6 +22,19 @@ router.get('/admin', function(req, res) {
 router.get('/homePage.json', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../data/homePage.json'));
 });
+
+router.post('/uploadImages', function(req, res) {
+    for (var property in req.body) {
+        if (req.body.hasOwnProperty(property)) {
+            fs.writeFileSync(path.join(imagesPath, property), req.body[property], 'binary');
+        }
+    }
+    res.send(true);
+});
+
+router.post('/updateHomePage', function(req, res) {
+    fs.writeFileSync(path.resolve(__dirname, '../data/homePage.json'), JSON.stringify( req.body));
+  });
 
 for (i = 0 ; i < pages; i++) {
     router.route(`/admin/${page.id}`).get(function(req, res) {

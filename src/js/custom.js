@@ -85,7 +85,7 @@ $(window).load(function () {
     if (content[i].video) {
       $('#' + content[i].index).vide({
         mp4: content[i].video,
-        poster: content[i].images[0]
+        poster: content[i].images[0].src
       }, {
         posterType: 'png'
       });
@@ -132,9 +132,13 @@ $(function () {
   $(function () {
     jQuery(document).ready(function () {
       for (i = 0; i < content.length; i++) {
+        var images = [];
+        for (j = 0; j < content[i].images.length; j++) {
+          images.push(content[i].images[j].src);
+        }
         $('#' + content[i].index).backstretch(
-          content[i].images, { duration: 2000, fade: 750 }
-        )
+          images, { duration: 2000, fade: 750 }
+        );
       }
     });
   })
