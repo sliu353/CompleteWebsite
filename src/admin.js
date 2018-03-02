@@ -1576,12 +1576,32 @@ module.exports = function normalizeComponent (
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var toBeExported = {
   data: function () {
     return {
       data: [],
       toBeDeletedProperties: {},
+      toBeDeletedPageIndex: -1,
       imagesToBePosted: new FormData()
     };
   },
@@ -1613,14 +1633,18 @@ var toBeExported = {
         imagesToBePosted.append(thisFile.name, e.target.result);
       };
     },
-    triggerDeleteDialog: function (index, src, name, imageIndex) {
+    triggerDeleteImageDialog: function (index, src, name, imageIndex) {
       this.toBeDeletedProperties = {
         nameToBedeleted: name,
         srcToBeDeleted: src,
         targetedSectionIndex: index,
         imageIndex: imageIndex
       };
-      this.$refs.btnHidden.click();
+      this.$refs.deleteImageBtnHidden.click();
+    },
+    triggerDeletePageDialog: function (index) {
+      this.toBeDeletedPageIndex = index;
+      this.$refs.deletePageBtnHidden.click();
     },
     removeSrcFromSection: function () {
       if (this.imagesToBePosted.has(this.toBeDeletedProperties.nameToBedeleted)) {
@@ -1631,6 +1655,12 @@ var toBeExported = {
         return section.index === targetedSectionIndex;
       });
       targetedSection.images.splice(this.toBeDeletedProperties.imageIndex, 1);
+    },
+    removePage: function () {
+      this.data.splice(parseInt(this.toBeDeletedPageIndex) - 1, 1);
+      for (var index in this.data) {
+        this.data[index].index = parseInt(index) + 1;
+      }
     },
     changeOrder: function (section, imageIndex, newIndex) {
       var thisImage = Object.assign({}, section.images[imageIndex]);
@@ -18252,7 +18282,7 @@ exports = module.exports = __webpack_require__(11)(true);
 
 
 // module
-exports.push([module.i, "\n.btn-hidden {\r\n  display: none;\n}\r\n", "", {"version":3,"sources":["C:/Users/uilna.DESKTOP-TEVUC4M/Documents/CompleteWebsite/adminSrc/components/adminSrc/components/Admin.vue"],"names":[],"mappings":";AAiHA;EACA,cAAA;CACA","file":"Admin.vue","sourcesContent":["<template>\r\n<div class=\"\">\r\n  <br>\r\n  <br>\r\n  <div class=\"dropdown form-group\">\r\n    <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"dropdown\">选择要编辑的页面\r\n    <span class=\"caret\"></span></button>\r\n    <ul class=\"nav-dropdown dropdown-menu nav\">\r\n      <li v-for=\"(section) in data\" :key=\"section.index\">\r\n        <a class=\"nav-tab\" data-toggle=\"tab\" v-bind:href=\"'#' + section.index\">{{ section.index }}</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n              <div class=\"form-group\">\r\n        <button class=\"btn btn-primary\" v-on:click=\"updateHomePage\">保存编辑</button>\r\n        </div>\r\n\r\n            <div class=\"form-group\">\r\n          <button class=\"btn btn-primary\" v-on:click=\"data.push({index: 'section' + (data.length + 1).toString(), images: []})\">添加页面</button>\r\n        </div>\r\n  <div class=\"tab-content\"> \r\n  <div v-for=\"(section, i) in data\" :key=\"section.index\" v-bind:id=\"section.index\" \r\n    v-bind:class=\"{'tab-pane':true, fade:true, in: i === 0, active: i === 0}\">\r\n    <h1>{{section.index}}</h1>\r\n    <form v-on:submit.prevent=\"addItem\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-12\">\r\n          <div class=\"form-group\">\r\n            <label>标题</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.title\">\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>文字</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.text\">\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>按钮文字</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.buttonText\">\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>背景形式</label>\r\n            <div class=\"radio\">\r\n              <label><input type=\"radio\" v-model=\"section.useVideo\" :value=\"true\">视频</label>\r\n            </div>\r\n            <div class=\"radio\">\r\n              <label><input type=\"radio\" v-model=\"section.useVideo\" :value=\"false\">图片</label>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div v-if=\"!section.useVideo\" class=\"form-group\">\r\n            <label>已有图片(拉拽调整顺序)</label>\r\n            <ul v-sortable=\"{onEnd: reorder}\" class=\"list-group\">\r\n              <li class=\"list-group-item\" v-for=\"(image, imageIndex) in section.images\" :key=\"image.name\">\r\n                <label>{{image.name}}</label>\r\n                <img v-bind:src=\"image.src\" style=\"width:200px; height:150px\">\r\n                <button type=\"button\" class=\"btn btn-danger\" v-on:click=\"triggerDeleteDialog(section.index, image.src, image.name, imageIndex)\">删除</button>\r\n              </li>\r\n            </ul>\r\n            <label>添加图片</label>\r\n            <input @change=\"uploadImage(section, $event)\" type=\"file\" name=\"photo\" accept=\"image/*\">\r\n          </div>  \r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div v-if=\"section.useVideo\" class=\"form-group\">\r\n            <label>按钮文字1</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.buttonText\">\r\n          </div>\r\n          <div v-else class=\"form-group\">\r\n            <label>按钮文字</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.buttonText\">\r\n          </div>\r\n        </div>\r\n                  <div class=\"form-group\">\r\n          <button class=\"btn btn-primary\" v-on:click=\"data.splice(i, 1)\">删除此页面</button>\r\n        </div>\r\n        </div><br />\r\n    </form>\r\n  </div>\r\n  </div>\r\n\r\n<button type=\"button\" class=\"btn btn-primary btn-hidden\" data-toggle=\"modal\" data-target=\"#exampleModal\" ref=\"btnHidden\">\r\n  Launch demo modal\r\n</button>\r\n\r\n<!-- Modal -->\r\n<div class=\"modal fade\" id=\"exampleModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">确定要删除这个图片么？</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <img v-bind:src=\"toBeDeletedProperties.srcToBeDeleted\" style=\"width:200px; height:150px\">\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" v-on:click=\"removeSrcFromSection\">删除</button>\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">取消</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n</div>\r\n</template>\r\n<style>\r\n.btn-hidden {\r\n  display: none;\r\n}\r\n</style>\r\n\r\n<script>\r\nvar toBeExported = {\r\n  data: function() {\r\n    return {\r\n      data: [],\r\n      toBeDeletedProperties: {},\r\n      imagesToBePosted: new FormData()\r\n    };\r\n  },\r\n  created: function() {\r\n    this.fetchData();\r\n  },\r\n  methods: {\r\n    fetchData: function() {\r\n      let uri = \"http://localhost:3000/homePage.json\";\r\n      this.axios.get(uri).then(response => {\r\n        this.data = response.data;\r\n      });\r\n    },\r\n    uploadImage: function(thisSection, e) {\r\n      var imagesToBePosted = this.imagesToBePosted;\r\n      var files = e.target.files;\r\n      if (!files[0]) {\r\n        return;\r\n      }\r\n      var thisFile = files[0];\r\n      var reader = new FileReader();\r\n      reader.readAsDataURL(thisFile);\r\n      reader.onload = function(e) {\r\n        var newItem = {\r\n          src: e.target.result,\r\n          name: thisFile.name\r\n        };\r\n        thisSection.images.push(newItem);\r\n        imagesToBePosted.append(thisFile.name, e.target.result);\r\n      };\r\n    },\r\n    triggerDeleteDialog: function(index, src, name, imageIndex) {\r\n      this.toBeDeletedProperties = {\r\n        nameToBedeleted: name,\r\n        srcToBeDeleted: src,\r\n        targetedSectionIndex: index,\r\n        imageIndex: imageIndex\r\n      };\r\n      this.$refs.btnHidden.click();\r\n    },\r\n    removeSrcFromSection: function() {\r\n      if (\r\n        this.imagesToBePosted.has(this.toBeDeletedProperties.nameToBedeleted)\r\n      ) {\r\n        this.imagesToBePosted.delete(\r\n          this.toBeDeletedProperties.nameToBedeleted\r\n        );\r\n      }\r\n      var targetedSectionIndex = this.toBeDeletedProperties\r\n        .targetedSectionIndex;\r\n      var targetedSection = this.data.find(function(section) {\r\n        return section.index === targetedSectionIndex;\r\n      });\r\n      targetedSection.images.splice(this.toBeDeletedProperties.imageIndex, 1);\r\n    },\r\n    changeOrder: function(section, imageIndex, newIndex) {\r\n      var thisImage = Object.assign({}, section.images[imageIndex]);\r\n      section.images[imageIndex] = section.images[newIndex];\r\n      section.images[newIndex] = thisImage;\r\n    },\r\n    updateHomePage: function() {\r\n      var axios = this.axios;\r\n      var scope = this;\r\n\r\n      axios\r\n        .post(\"/updateHomePage\", scope.data)\r\n        .then(response => {\r\n          scope.data = response.data;\r\n        })\r\n        .catch(function(e) {\r\n          console.log(e);\r\n        });\r\n    },\r\n    reorder({ oldIndex, newIndex }) {\r\n      const movedItem = this.items.splice(oldIndex, 1)[0];\r\n      this.items.splice(newIndex, 0, movedItem);\r\n    }\r\n  }\r\n};\r\nexport default toBeExported;\r\n</script>"],"sourceRoot":""}]);
+exports.push([module.i, "\n.btn-hidden {\r\n  display: none;\n}\r\n", "", {"version":3,"sources":["C:/Users/uilna.DESKTOP-TEVUC4M/Documents/CompleteWebsite/adminSrc/components/adminSrc/components/Admin.vue"],"names":[],"mappings":";AAoIA;EACA,cAAA;CACA","file":"Admin.vue","sourcesContent":["<template>\r\n<div class=\"\">\r\n  <br>\r\n  <br>\r\n  <div class=\"dropdown form-group\">\r\n    <button class=\"btn btn-primary\" type=\"button\" data-toggle=\"dropdown\">选择要编辑的页面\r\n    <span class=\"caret\"></span></button>\r\n    <ul class=\"nav-dropdown dropdown-menu nav\">\r\n      <li v-for=\"(section) in data\" :key=\"section.index\">\r\n        <a class=\"nav-tab\" data-toggle=\"tab\" v-bind:href=\"'#' + section.index\">页面{{ section.index }}</a>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n              <div class=\"form-group\">\r\n        <button class=\"btn btn-primary\" v-on:click=\"updateHomePage\">保存编辑</button>\r\n        </div>\r\n\r\n            <div class=\"form-group\">\r\n          <button class=\"btn btn-primary\" v-on:click=\"data.push({index: data.length + 1, images: []})\">添加页面</button>\r\n        </div>\r\n  <div class=\"tab-content\"> \r\n  <div v-for=\"(section, i) in data\" :key=\"section.index\" v-bind:id=\"section.index\" \r\n    v-bind:class=\"{'tab-pane':true, fade:true, in: i === 0, active: i === 0}\">\r\n    <h1>页面{{section.index}}</h1>\r\n    <form v-on:submit.prevent=\"addItem\">\r\n      <div class=\"row\">\r\n        <div class=\"col-sm-12\">\r\n          <div class=\"form-group\">\r\n            <label>标题</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.title\">\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>文字</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.text\">\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>按钮文字</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.buttonText\">\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div class=\"form-group\">\r\n            <label>背景形式</label>\r\n            <div class=\"radio\">\r\n              <label><input type=\"radio\" v-model=\"section.useVideo\" :value=\"true\">视频</label>\r\n            </div>\r\n            <div class=\"radio\">\r\n              <label><input type=\"radio\" v-model=\"section.useVideo\" :value=\"false\">图片</label>\r\n            </div>\r\n          </div>\r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div v-if=\"!section.useVideo\" class=\"form-group\">\r\n            <label>已有图片(拉拽调整顺序)</label>\r\n            <ul v-sortable=\"{onEnd: reorder}\" class=\"list-group\">\r\n              <li class=\"list-group-item\" v-for=\"(image, imageIndex) in section.images\" :key=\"image.name\">\r\n                <label>{{image.name}}</label>\r\n                <img v-bind:src=\"image.src\" style=\"width:200px; height:150px\">\r\n                <button type=\"button\" class=\"btn btn-danger\" v-on:click=\"triggerDeleteImageDialog(section.index, image.src, image.name, imageIndex)\">删除</button>\r\n              </li>\r\n            </ul>\r\n            <label>添加图片</label>\r\n            <input @change=\"uploadImage(section, $event)\" type=\"file\" name=\"photo\" accept=\"image/*\">\r\n          </div>  \r\n        </div>\r\n        <div class=\"col-md-12\">\r\n          <div v-if=\"section.useVideo\" class=\"form-group\">\r\n            <label>按钮文字1</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.buttonText\">\r\n          </div>\r\n          <div v-else class=\"form-group\">\r\n            <label>按钮文字</label>\r\n            <input type=\"text\" class=\"form-control\" v-model=\"section.buttonText\">\r\n          </div>\r\n        </div>\r\n                  <div class=\"form-group\">\r\n          <button class=\"btn btn-primary\" v-on:click=\"triggerDeletePageDialog(section.index)\">删除此页面</button>\r\n        </div>\r\n        </div><br />\r\n    </form>\r\n  </div>\r\n  </div>\r\n\r\n<button type=\"button\" class=\"btn btn-primary btn-hidden\" data-toggle=\"modal\" data-target=\"#deleteImageModal\" ref=\"deleteImageBtnHidden\">\r\n  Launch demo modal\r\n</button>\r\n<button type=\"button\" class=\"btn btn-primary btn-hidden\" data-toggle=\"modal\" data-target=\"#deletePageModal\" ref=\"deletePageBtnHidden\">\r\n  Launch demo modal\r\n</button>\r\n\r\n<!-- Modal -->\r\n<div class=\"modal fade\" id=\"deleteImageModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">确定要删除这个图片么？</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-body\">\r\n        <img v-bind:src=\"toBeDeletedProperties.srcToBeDeleted\" style=\"width:200px; height:150px\">\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" v-on:click=\"removeSrcFromSection\">删除</button>\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">取消</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"modal fade\" id=\"deletePageModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n  <div class=\"modal-dialog\" role=\"document\">\r\n    <div class=\"modal-content\">\r\n      <div class=\"modal-header\">\r\n        <h5 class=\"modal-title\" id=\"exampleModalLabel\">确定要删除页面{{toBeDeletedPageIndex}}么？</h5>\r\n        <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n          <span aria-hidden=\"true\">&times;</span>\r\n        </button>\r\n      </div>\r\n      <div class=\"modal-footer\">\r\n        <button type=\"button\" class=\"btn btn-danger\" data-dismiss=\"modal\" v-on:click=\"removePage\">删除</button>\r\n        <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">取消</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n</div>\r\n</template>\r\n<style>\r\n.btn-hidden {\r\n  display: none;\r\n}\r\n</style>\r\n\r\n<script>\r\nvar toBeExported = {\r\n  data: function() {\r\n    return {\r\n      data: [],\r\n      toBeDeletedProperties: {},\r\n      toBeDeletedPageIndex: -1,\r\n      imagesToBePosted: new FormData()\r\n    };\r\n  },\r\n  created: function() {\r\n    this.fetchData();\r\n  },\r\n  methods: {\r\n    fetchData: function() {\r\n      let uri = \"http://localhost:3000/homePage.json\";\r\n      this.axios.get(uri).then(response => {\r\n        this.data = response.data;\r\n      });\r\n    },\r\n    uploadImage: function(thisSection, e) {\r\n      var imagesToBePosted = this.imagesToBePosted;\r\n      var files = e.target.files;\r\n      if (!files[0]) {\r\n        return;\r\n      }\r\n      var thisFile = files[0];\r\n      var reader = new FileReader();\r\n      reader.readAsDataURL(thisFile);\r\n      reader.onload = function(e) {\r\n        var newItem = {\r\n          src: e.target.result,\r\n          name: thisFile.name\r\n        };\r\n        thisSection.images.push(newItem);\r\n        imagesToBePosted.append(thisFile.name, e.target.result);\r\n      };\r\n    },\r\n    triggerDeleteImageDialog: function(index, src, name, imageIndex) {\r\n      this.toBeDeletedProperties = {\r\n        nameToBedeleted: name,\r\n        srcToBeDeleted: src,\r\n        targetedSectionIndex: index,\r\n        imageIndex: imageIndex\r\n      };\r\n      this.$refs.deleteImageBtnHidden.click();\r\n    },\r\n    triggerDeletePageDialog: function(index) {\r\n      this.toBeDeletedPageIndex = index;\r\n      this.$refs.deletePageBtnHidden.click();\r\n    },\r\n    removeSrcFromSection: function() {\r\n      if (\r\n        this.imagesToBePosted.has(this.toBeDeletedProperties.nameToBedeleted)\r\n      ) {\r\n        this.imagesToBePosted.delete(\r\n          this.toBeDeletedProperties.nameToBedeleted\r\n        );\r\n      }\r\n      var targetedSectionIndex = this.toBeDeletedProperties\r\n        .targetedSectionIndex;\r\n      var targetedSection = this.data.find(function(section) {\r\n        return section.index === targetedSectionIndex;\r\n      });\r\n      targetedSection.images.splice(this.toBeDeletedProperties.imageIndex, 1);\r\n    },\r\n    removePage: function() {\r\n      this.data.splice(parseInt(this.toBeDeletedPageIndex) - 1, 1);\r\n      for (var index in this.data) {\r\n        this.data[index].index = parseInt(index) + 1;\r\n      }\r\n    },\r\n    changeOrder: function(section, imageIndex, newIndex) {\r\n      var thisImage = Object.assign({}, section.images[imageIndex]);\r\n      section.images[imageIndex] = section.images[newIndex];\r\n      section.images[newIndex] = thisImage;\r\n    },\r\n    updateHomePage: function() {\r\n      var axios = this.axios;\r\n      var scope = this;\r\n\r\n      axios\r\n        .post(\"/updateHomePage\", scope.data)\r\n        .then(response => {\r\n          scope.data = response.data;\r\n        })\r\n        .catch(function(e) {\r\n          console.log(e);\r\n        });\r\n    },\r\n    reorder({ oldIndex, newIndex }) {\r\n      const movedItem = this.items.splice(oldIndex, 1)[0];\r\n      this.items.splice(newIndex, 0, movedItem);\r\n    }\r\n  }\r\n};\r\nexport default toBeExported;\r\n</script>"],"sourceRoot":""}]);
 
 // exports
 
@@ -18285,7 +18315,7 @@ var render = function() {
                 staticClass: "nav-tab",
                 attrs: { "data-toggle": "tab", href: "#" + section.index }
               },
-              [_vm._v(_vm._s(section.index))]
+              [_vm._v("页面" + _vm._s(section.index))]
             )
           ])
         })
@@ -18307,10 +18337,7 @@ var render = function() {
           staticClass: "btn btn-primary",
           on: {
             click: function($event) {
-              _vm.data.push({
-                index: "section" + (_vm.data.length + 1).toString(),
-                images: []
-              })
+              _vm.data.push({ index: _vm.data.length + 1, images: [] })
             }
           }
         },
@@ -18335,7 +18362,7 @@ var render = function() {
             attrs: { id: section.index }
           },
           [
-            _c("h1", [_vm._v(_vm._s(section.index))]),
+            _c("h1", [_vm._v("页面" + _vm._s(section.index))]),
             _vm._v(" "),
             _c(
               "form",
@@ -18534,7 +18561,7 @@ var render = function() {
                                       attrs: { type: "button" },
                                       on: {
                                         click: function($event) {
-                                          _vm.triggerDeleteDialog(
+                                          _vm.triggerDeleteImageDialog(
                                             section.index,
                                             image.src,
                                             image.name,
@@ -18637,7 +18664,7 @@ var render = function() {
                         staticClass: "btn btn-primary",
                         on: {
                           click: function($event) {
-                            _vm.data.splice(i, 1)
+                            _vm.triggerDeletePageDialog(section.index)
                           }
                         }
                       },
@@ -18656,12 +18683,26 @@ var render = function() {
     _c(
       "button",
       {
-        ref: "btnHidden",
+        ref: "deleteImageBtnHidden",
         staticClass: "btn btn-primary btn-hidden",
         attrs: {
           type: "button",
           "data-toggle": "modal",
-          "data-target": "#exampleModal"
+          "data-target": "#deleteImageModal"
+        }
+      },
+      [_vm._v("\r\n  Launch demo modal\r\n")]
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        ref: "deletePageBtnHidden",
+        staticClass: "btn btn-primary btn-hidden",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#deletePageModal"
         }
       },
       [_vm._v("\r\n  Launch demo modal\r\n")]
@@ -18672,7 +18713,7 @@ var render = function() {
       {
         staticClass: "modal fade",
         attrs: {
-          id: "exampleModal",
+          id: "deleteImageModal",
           tabindex: "-1",
           role: "dialog",
           "aria-labelledby": "exampleModalLabel",
@@ -18701,6 +18742,69 @@ var render = function() {
                     staticClass: "btn btn-danger",
                     attrs: { type: "button", "data-dismiss": "modal" },
                     on: { click: _vm.removeSrcFromSection }
+                  },
+                  [_vm._v("删除")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-secondary",
+                    attrs: { type: "button", "data-dismiss": "modal" }
+                  },
+                  [_vm._v("取消")]
+                )
+              ])
+            ])
+          ]
+        )
+      ]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: {
+          id: "deletePageModal",
+          tabindex: "-1",
+          role: "dialog",
+          "aria-labelledby": "exampleModalLabel",
+          "aria-hidden": "true"
+        }
+      },
+      [
+        _c(
+          "div",
+          { staticClass: "modal-dialog", attrs: { role: "document" } },
+          [
+            _c("div", { staticClass: "modal-content" }, [
+              _c("div", { staticClass: "modal-header" }, [
+                _c(
+                  "h5",
+                  {
+                    staticClass: "modal-title",
+                    attrs: { id: "exampleModalLabel" }
+                  },
+                  [
+                    _vm._v(
+                      "确定要删除页面" +
+                        _vm._s(_vm.toBeDeletedPageIndex) +
+                        "么？"
+                    )
+                  ]
+                ),
+                _vm._v(" "),
+                _vm._m(2)
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "modal-footer" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-danger",
+                    attrs: { type: "button", "data-dismiss": "modal" },
+                    on: { click: _vm.removePage }
                   },
                   [_vm._v("删除")]
                 ),
@@ -18759,6 +18863,23 @@ var staticRenderFns = [
         [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
       )
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "button",
+      {
+        staticClass: "close",
+        attrs: {
+          type: "button",
+          "data-dismiss": "modal",
+          "aria-label": "Close"
+        }
+      },
+      [_c("span", { attrs: { "aria-hidden": "true" } }, [_vm._v("×")])]
+    )
   }
 ]
 render._withStripped = true

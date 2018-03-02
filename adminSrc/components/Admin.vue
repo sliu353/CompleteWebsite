@@ -7,7 +7,7 @@
     <span class="caret"></span></button>
     <ul class="nav-dropdown dropdown-menu nav">
       <li v-for="(section) in data" :key="section.index">
-        <a class="nav-tab" data-toggle="tab" v-bind:href="'#' + section.index">{{ section.index }}</a>
+        <a class="nav-tab" data-toggle="tab" v-bind:href="'#' + section.index">页面{{ section.index }}</a>
       </li>
     </ul>
   </div>
@@ -16,12 +16,12 @@
         </div>
 
             <div class="form-group">
-          <button class="btn btn-primary" v-on:click="data.push({index: 'section' + (data.length + 1).toString(), images: []})">添加页面</button>
+          <button class="btn btn-primary" v-on:click="data.push({index: data.length + 1, images: []})">添加页面</button>
         </div>
   <div class="tab-content"> 
   <div v-for="(section, i) in data" :key="section.index" v-bind:id="section.index" 
     v-bind:class="{'tab-pane':true, fade:true, in: i === 0, active: i === 0}">
-    <h1>{{section.index}}</h1>
+    <h1>页面{{section.index}}</h1>
     <form v-on:submit.prevent="addItem">
       <div class="row">
         <div class="col-sm-12">
@@ -60,7 +60,7 @@
               <li class="list-group-item" v-for="(image, imageIndex) in section.images" :key="image.name">
                 <label>{{image.name}}</label>
                 <img v-bind:src="image.src" style="width:200px; height:150px">
-                <button type="button" class="btn btn-danger" v-on:click="triggerDeleteDialog(section.index, image.src, image.name, imageIndex)">删除</button>
+                <button type="button" class="btn btn-danger" v-on:click="triggerDeleteImageDialog(section.index, image.src, image.name, imageIndex)">删除</button>
               </li>
             </ul>
             <label>添加图片</label>
@@ -78,19 +78,22 @@
           </div>
         </div>
                   <div class="form-group">
-          <button class="btn btn-primary" v-on:click="data.splice(i, 1)">删除此页面</button>
+          <button class="btn btn-primary" v-on:click="triggerDeletePageDialog(section.index)">删除此页面</button>
         </div>
         </div><br />
     </form>
   </div>
   </div>
 
-<button type="button" class="btn btn-primary btn-hidden" data-toggle="modal" data-target="#exampleModal" ref="btnHidden">
+<button type="button" class="btn btn-primary btn-hidden" data-toggle="modal" data-target="#deleteImageModal" ref="deleteImageBtnHidden">
+  Launch demo modal
+</button>
+<button type="button" class="btn btn-primary btn-hidden" data-toggle="modal" data-target="#deletePageModal" ref="deletePageBtnHidden">
   Launch demo modal
 </button>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -104,6 +107,22 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="removeSrcFromSection">删除</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deletePageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">确定要删除页面{{toBeDeletedPageIndex}}么？</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal" v-on:click="removePage">删除</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
       </div>
     </div>
@@ -123,6 +142,7 @@ var toBeExported = {
     return {
       data: [],
       toBeDeletedProperties: {},
+      toBeDeletedPageIndex: -1,
       imagesToBePosted: new FormData()
     };
   },
@@ -154,14 +174,18 @@ var toBeExported = {
         imagesToBePosted.append(thisFile.name, e.target.result);
       };
     },
-    triggerDeleteDialog: function(index, src, name, imageIndex) {
+    triggerDeleteImageDialog: function(index, src, name, imageIndex) {
       this.toBeDeletedProperties = {
         nameToBedeleted: name,
         srcToBeDeleted: src,
         targetedSectionIndex: index,
         imageIndex: imageIndex
       };
-      this.$refs.btnHidden.click();
+      this.$refs.deleteImageBtnHidden.click();
+    },
+    triggerDeletePageDialog: function(index) {
+      this.toBeDeletedPageIndex = index;
+      this.$refs.deletePageBtnHidden.click();
     },
     removeSrcFromSection: function() {
       if (
@@ -177,6 +201,12 @@ var toBeExported = {
         return section.index === targetedSectionIndex;
       });
       targetedSection.images.splice(this.toBeDeletedProperties.imageIndex, 1);
+    },
+    removePage: function() {
+      this.data.splice(parseInt(this.toBeDeletedPageIndex) - 1, 1);
+      for (var index in this.data) {
+        this.data[index].index = parseInt(index) + 1;
+      }
     },
     changeOrder: function(section, imageIndex, newIndex) {
       var thisImage = Object.assign({}, section.images[imageIndex]);
