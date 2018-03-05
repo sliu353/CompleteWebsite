@@ -1,20 +1,8 @@
 <template>
     <div class="container-fluid">
-            <div class="col-sm-3 editor">
-            <transition name="fade">
+      <transition name="fade">
                 <router-view></router-view>
             </transition>
-            <hr>
-            <label>宽度(%)</label>
-            <input type="number" class="form-control" min="0" max="100" step="5"  v-model="width">
-            <label>高度(%)</label>
-            <input type="number" class="form-control" min="0" max="100" step="5" v-model="height">
-            </div>
-<div class="content col-sm-9">
-  <div class="page-view-container" v-bind:style="{ width: width + '%', height: height + '%' }">
-            <iframe class="view" src="http://localhost:3000" ></iframe>
-        </div>
-</div>
         </div>
 </template>
 <style>
@@ -64,11 +52,5 @@
 </style>
 <script>
 export default {
-  data: function() {
-    return {
-      height: 100,
-      width: 100
-    };
-  }
 };
 </script>

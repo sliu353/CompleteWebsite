@@ -2,7 +2,7 @@
   "name": "complete-website",
   "version": "0.0.1",
   "scripts": {
-    "start": "node_modules/.bin/nodemon app.js",
+    "startWithNodemon": "node_modules/.bin/nodemon app.js",
     "build": "node_modules/.bin/webpack",
     "devServer": "webpack-dev-server"
   },

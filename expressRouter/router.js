@@ -3,7 +3,7 @@ var app = express();
 var router = express.Router();
 var fs = require('fs');
 var path = require('path');
-const imagesPath = path.join( __dirname + '/../src/images');
+const videoPath = path.join( __dirname + '/../src/video');
 
 var navs = require('../data/navbar.json');
 var pages = navs.sections;
@@ -23,18 +23,27 @@ router.get('/homePage.json', function(req, res) {
     res.sendFile(path.resolve(__dirname, '../data/homePage.json'));
 });
 
-router.post('/uploadImages', function(req, res) {
-    for (var property in req.body) {
-        if (req.body.hasOwnProperty(property)) {
-            fs.writeFileSync(path.join(imagesPath, property), req.body[property], 'binary');
-        }
+router.post('/uploadVideo', function(req, res) {
+    try {
+        fs.writeFile(path.join(videoPath, req.body.name), req.body.src.replace('data:video/mp4;base64,', ''), 'base64', function() {
+            res.send('succeeded!');
+        });
     }
-    res.send(true);
+    catch (e) {
+        res.sendDate(e);
+    }
 });
 
 router.post('/updateHomePage', function(req, res) {
-    fs.writeFileSync(path.resolve(__dirname, '../data/homePage.json'), JSON.stringify( req.body));
-  });
+    try{
+        var homePageJsonPath = path.resolve(__dirname, '../data/homePage.json');
+        fs.writeFileSync(homePageJsonPath, JSON.stringify( req.body));
+        res.sendFile(homePageJsonPath);
+    } catch (e) {
+        res.status(500);
+        res.send(e);
+    }
+});
 
 for (i = 0 ; i < pages; i++) {
     router.route(`/admin/${page.id}`).get(function(req, res) {

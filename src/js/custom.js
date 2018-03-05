@@ -75,14 +75,12 @@ jQuery(document).ready(function ($) {
   }
 });
 
-$()
-
 $(window).load(function () {
   $('#loader').fadeOut(1000); // set duration in brackets  
   $('#overlay-for-loader').fadeOut(1000);
 
   for (i = 0; i < content.length; i++) {
-    if (content[i].video) {
+    if (content[i].useVideo) {
       $('#' + content[i].index).vide({
         mp4: content[i].video,
         poster: content[i].images[0].src

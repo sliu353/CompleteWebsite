@@ -13,6 +13,7 @@ app.set('view options', { layout: false });
 app.set('views', __dirname + '/views');
 
 app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(fileUpload());
 
 // Decode the request url and redirect to default page if the request url is '/首页/首页.html/'

@@ -1,6 +1,7 @@
 <template>
 <div class="">
-  <br>
+              <div class="col-sm-3 editor">
+                <br>
   <br>
   <div class="dropdown form-group">
     <button class="btn btn-primary" type="button" data-toggle="dropdown">选择要编辑的页面
@@ -12,11 +13,11 @@
     </ul>
   </div>
               <div class="form-group">
-        <button class="btn btn-primary" v-on:click="updateHomePage">保存编辑</button>
+        <button class="btn btn-success" v-on:click="updateHomePage" v-bind:disabled="!isHomePageUploaded">保存编辑</button>
         </div>
 
             <div class="form-group">
-          <button class="btn btn-primary" v-on:click="data.push({index: data.length + 1, images: []})">添加页面</button>
+          <button class="btn btn-primary" v-on:click="data.push({index: data.length + 1, images: [], useVideo: false})">添加页面</button>
         </div>
   <div class="tab-content"> 
   <div v-for="(section, i) in data" :key="section.index" v-bind:id="section.index" 
@@ -64,17 +65,19 @@
               </li>
             </ul>
             <label>添加图片</label>
-            <input @change="uploadImage(section, $event)" type="file" name="photo" accept="image/*">
+            <input @change="uploadFile(section, 'image', $event)" type="file" name="photo" accept="image/*">
           </div>  
         </div>
         <div class="col-md-12">
           <div v-if="section.useVideo" class="form-group">
-            <label>按钮文字1</label>
-            <input type="text" class="form-control" v-model="section.buttonText">
-          </div>
-          <div v-else class="form-group">
-            <label>按钮文字</label>
-            <input type="text" class="form-control" v-model="section.buttonText">
+            <div class="list-group-item">
+            <label>{{section.images[0].name}}</label>
+                <img v-bind:src="section.images[0].src" style="width:200px; height:150px">
+             </div>
+             <label>添加（替換）備用图片</label>
+              <input @change="uploadFile(section, 'image', $event)" type="file" name="photo" accept="image/*">
+               <label>添加視頻</label>
+            <input @change="uploadFile(section, 'video', $event)" type="file" name="photo" accept="video/*">
           </div>
         </div>
                   <div class="form-group">
@@ -92,6 +95,18 @@
   Launch demo modal
 </button>
 
+            <hr>
+            <label>宽度(%)</label>
+            <input type="number" class="form-control" min="0" max="100" step="5"  v-model="width">
+            <label>高度(%)</label>
+            <input type="number" class="form-control" min="0" max="100" step="5" v-model="height">
+            </div>
+<div class="content col-sm-9">
+  <div class="page-view-container" v-bind:style="{ width: width + '%', height: height + '%' }">
+            <iframe id="view" class="view" src="http://localhost:3000" ></iframe>
+        </div>
+</div>
+  
 <!-- Modal -->
 <div class="modal fade" id="deleteImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -143,7 +158,9 @@ var toBeExported = {
       data: [],
       toBeDeletedProperties: {},
       toBeDeletedPageIndex: -1,
-      imagesToBePosted: new FormData()
+      isHomePageUploaded: true,
+      width: 100,
+      height: 100
     };
   },
   created: function() {
@@ -156,8 +173,8 @@ var toBeExported = {
         this.data = response.data;
       });
     },
-    uploadImage: function(thisSection, e) {
-      var imagesToBePosted = this.imagesToBePosted;
+    uploadFile: function(thisSection, fileType, e) {
+      var axios = this.axios;
       var files = e.target.files;
       if (!files[0]) {
         return;
@@ -170,8 +187,22 @@ var toBeExported = {
           src: e.target.result,
           name: thisFile.name
         };
-        thisSection.images.push(newItem);
-        imagesToBePosted.append(thisFile.name, e.target.result);
+        if (!thisSection.useVideo) {
+          thisSection.images.push(newItem);
+        } else {
+          if (fileType === 'image') {
+            thisSection.images = [newItem];
+            return;
+          }
+          axios.post('/uploadVideo', newItem).then(
+            function() {
+              thisSection.video = '/video/' + newItem.name;
+            }
+          ).catch(
+            function(e) {
+              alert(e.message);
+          });
+        }
       };
     },
     triggerDeleteImageDialog: function(index, src, name, imageIndex) {
@@ -188,13 +219,6 @@ var toBeExported = {
       this.$refs.deletePageBtnHidden.click();
     },
     removeSrcFromSection: function() {
-      if (
-        this.imagesToBePosted.has(this.toBeDeletedProperties.nameToBedeleted)
-      ) {
-        this.imagesToBePosted.delete(
-          this.toBeDeletedProperties.nameToBedeleted
-        );
-      }
       var targetedSectionIndex = this.toBeDeletedProperties
         .targetedSectionIndex;
       var targetedSection = this.data.find(function(section) {
@@ -216,14 +240,18 @@ var toBeExported = {
     updateHomePage: function() {
       var axios = this.axios;
       var scope = this;
+      scope.isHomePageUploaded = false;
 
       axios
         .post("/updateHomePage", scope.data)
         .then(response => {
+          scope.isHomePageUploaded = true;
           scope.data = response.data;
+          document.getElementById("view").src += "";
         })
         .catch(function(e) {
-          console.log(e);
+          alert(e.message);
+          scope.isHomePageUploaded = true;
         });
     },
     reorder({ oldIndex, newIndex }) {
