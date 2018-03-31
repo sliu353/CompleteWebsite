@@ -83,7 +83,6 @@ $(window).load(function () {
     if (content[i].useVideo) {
       $('#' + content[i].index).vide({
         mp4: content[i].video,
-        poster: content[i].images[0].src
       }, {
         posterType: 'png'
       });
@@ -131,9 +130,14 @@ $(function () {
     jQuery(document).ready(function () {
       for (i = 0; i < content.length; i++) {
         var images = [];
+        if (content[i].useVideo) {
+          images.push(content[i].tmpImage.src);
+        }
+        else {
         for (j = 0; j < content[i].images.length; j++) {
           images.push(content[i].images[j].src);
         }
+      }
         $('#' + content[i].index).backstretch(
           images, { duration: 2000, fade: 750 }
         );

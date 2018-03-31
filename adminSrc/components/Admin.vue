@@ -57,7 +57,7 @@
         <div class="col-md-12">
           <div v-if="!section.useVideo" class="form-group">
             <label>已有图片(拉拽调整顺序)</label>
-            <ul v-sortable="{onEnd: reorder}" class="list-group">
+            <ul class="list-group">
               <li class="list-group-item" v-for="(image, imageIndex) in section.images" :key="image.name">
                 <label>{{image.name}}</label>
                 <img v-bind:src="image.src" style="width:200px; height:150px">
@@ -70,9 +70,9 @@
         </div>
         <div class="col-md-12">
           <div v-if="section.useVideo" class="form-group">
-            <div class="list-group-item">
-            <label>{{section.images[0].name}}</label>
-                <img v-bind:src="section.images[0].src" style="width:200px; height:150px">
+            <div v-if="section.tmpImage" class="list-group-item">
+                <label>{{section.tmpImage ? section.tmpImage.name : ''}}</label>
+                <img v-bind:src="section.tmpImage.src" style="width:200px; height:150px">
              </div>
              <label>添加（替換）備用图片</label>
               <input @change="uploadFile(section, 'image', $event)" type="file" name="photo" accept="image/*">
@@ -174,6 +174,7 @@ var toBeExported = {
       });
     },
     uploadFile: function(thisSection, fileType, e) {
+      var vue = this;
       var axios = this.axios;
       var files = e.target.files;
       if (!files[0]) {
@@ -191,7 +192,7 @@ var toBeExported = {
           thisSection.images.push(newItem);
         } else {
           if (fileType === 'image') {
-            thisSection.images = [newItem];
+            vue.$set(thisSection, 'tmpImage', newItem);
             return;
           }
           axios.post('/uploadVideo', newItem).then(
@@ -253,10 +254,6 @@ var toBeExported = {
           alert(e.message);
           scope.isHomePageUploaded = true;
         });
-    },
-    reorder({ oldIndex, newIndex }) {
-      const movedItem = this.items.splice(oldIndex, 1)[0];
-      this.items.splice(newIndex, 0, movedItem);
     }
   }
 };
